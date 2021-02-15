@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=x": { "model": "ruins:block/polluted_tree_log_x" },
+    "axis=y": { "model": "ruins:block/polluted_tree_log_y" },
+    "axis=z": { "model": "ruins:block/polluted_tree_log_z" }
+  }
+}

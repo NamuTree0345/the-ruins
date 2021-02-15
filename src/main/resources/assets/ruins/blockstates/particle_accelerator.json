@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "powered=true": { "model": "ruins:block/particle_accelerator_on" },
+    "powered=false": { "model": "ruins:block/particle_accelerator_off" }
+  }
+}

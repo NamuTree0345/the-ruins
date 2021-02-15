@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "ruins:block/polluted_tree_sapling"
+  }
+}
