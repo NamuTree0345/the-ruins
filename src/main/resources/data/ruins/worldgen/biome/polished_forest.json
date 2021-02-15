@@ -119,7 +119,10 @@
     [],
     [],
     [],
-    [],
+    [
+      "ruins:flame_ore",
+      "ruins:ice_ore"
+    ],
     [],
     [],
     [

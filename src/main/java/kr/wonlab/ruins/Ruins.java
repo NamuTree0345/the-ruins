@@ -19,7 +19,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.UniformIntDistribution;
+import net.minecraft.world.gen.decorator.Decorator;
+import net.minecraft.world.gen.decorator.RangeDecoratorConfig;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
@@ -50,6 +53,15 @@ public class Ruins implements ModInitializer {
 
     public static Block PARTICLE_ACCELERATOR = new ParticleAcceleratorBlock(FabricBlockSettings.of(Material.METAL).strength(4.0f));
     public static Item PARTICLE_ACCELERATOR_ITEM;
+
+    public static Block FLAME_ORE = new Block(FabricBlockSettings.of(Material.STONE).strength(3.0f).requiresTool().resistance(3.0f));
+    public static Block ICE_ORE = new Block(FabricBlockSettings.of(Material.STONE).strength(3.0f).requiresTool().resistance(3.0f));
+
+    public static Item FLAME_ORE_ITEM = new BlockItem(FLAME_ORE, new FabricItemSettings().group(RUINS_ITEMGROUP));
+    public static Item ICE_ORE_ITEM = new BlockItem(ICE_ORE, new FabricItemSettings().group(RUINS_ITEMGROUP));
+
+    public static ConfiguredFeature<?, ?> FLAME_ORE_FEATURE;
+    public static ConfiguredFeature<?, ?> ICE_ORE_FEATURE;
 
     @Override
     public void onInitialize() {
@@ -82,6 +94,40 @@ public class Ruins implements ModInitializer {
 
         // OAK = register("oak", Feature.TREE.configure((new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(ConfiguredFeatures.States.OAK_LOG), new SimpleBlockStateProvider(ConfiguredFeatures.States.OAK_LEAVES), new BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), new StraightTrunkPlacer(4, 2, 0), new TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()));
         POLLUTED_TREE = registerConfiguredFeature("polluted_tree", Feature.TREE.configure((new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(POLLUTED_TREE_LOG.getDefaultState()), new SimpleBlockStateProvider(Blocks.AIR.getDefaultState()), new BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), new StraightTrunkPlacer(4, 2, 0), new TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()));
+
+        FLAME_ORE = Registry.register(Registry.BLOCK, new Identifier("ruins", "flame_ore"), FLAME_ORE);
+        FLAME_ORE_ITEM = Registry.register(Registry.ITEM, new Identifier("ruins", "flame_ore"), FLAME_ORE_ITEM);
+        ICE_ORE = Registry.register(Registry.BLOCK, new Identifier("ruins", "ice_ore"), ICE_ORE);
+        ICE_ORE_ITEM = Registry.register(Registry.ITEM, new Identifier("ruins", "ice_ore"), ICE_ORE_ITEM);
+
+        FLAME_ORE_FEATURE = Feature.ORE
+                .configure(new OreFeatureConfig(
+                        OreFeatureConfig.Rules.BASE_STONE_OVERWORLD,
+                        FLAME_ORE.getDefaultState(),
+                        9)) // vein size
+                .decorate(Decorator.RANGE.configure(new RangeDecoratorConfig(
+                        0,
+                        0,
+                        158)))
+                .spreadHorizontally()
+                .repeat(20);
+        RegistryKey<ConfiguredFeature<?, ?>> flameOre = RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,
+                new Identifier("ruins", "flame_ore"));
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, flameOre.getValue(), FLAME_ORE_FEATURE);
+        ICE_ORE_FEATURE = Feature.ORE
+                .configure(new OreFeatureConfig(
+                        OreFeatureConfig.Rules.BASE_STONE_OVERWORLD,
+                        ICE_ORE.getDefaultState(),
+                        9)) // vein size
+                .decorate(Decorator.RANGE.configure(new RangeDecoratorConfig(
+                        0,
+                        0,
+                        64)))
+                .spreadHorizontally()
+                .repeat(20);
+        RegistryKey<ConfiguredFeature<?, ?>> iceOre = RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,
+                new Identifier("ruins", "ice_ore"));
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, iceOre.getValue(), ICE_ORE_FEATURE);
 
     }
 
