@@ -1,8 +1,10 @@
 package kr.wonlab.ruins.entity;
 
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.ZombieEntityModel;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -66,5 +68,13 @@ public class FireZombieModel<T extends ZombieEntity> extends ZombieEntityModel<T
             this.head.pitch = 0.0F;
         }
 
+    }
+
+    @Override
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+        matrices.translate(0, 1.125, 0);
+        for (ModelPart bodyPart : this.getBodyParts()) {
+            bodyPart.render(matrices, vertices, light, overlay);
+        }
     }
 }
