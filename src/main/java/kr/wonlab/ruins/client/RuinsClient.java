@@ -1,11 +1,15 @@
 package kr.wonlab.ruins.client;
 
 import kr.wonlab.ruins.Ruins;
+import kr.wonlab.ruins.blocks.PollutedFurnaceScreen;
+import kr.wonlab.ruins.entity.FireZombieRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -27,7 +31,9 @@ import java.util.function.Function;
 public class RuinsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        EntityRendererRegistry.INSTANCE.register(Ruins.FIRE_ZOMBIE, (dispatcher, context) -> new FireZombieRenderer(dispatcher));
         setupFluidRendering(Ruins.STILL_POLLUTED_WATER, Ruins.FLOWING_POLLUTED_WATER, new Identifier("minecraft", "water"), 0x4CC248);
+        ScreenRegistry.register(Ruins.POLLUTED_FURNACE_SCREEN_HANDLER, PollutedFurnaceScreen::new);
     }
 
     public static void setupFluidRendering(final Fluid still, final Fluid flowing, final Identifier textureFluidId, final int color)

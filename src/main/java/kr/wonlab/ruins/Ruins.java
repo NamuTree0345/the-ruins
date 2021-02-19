@@ -1,19 +1,33 @@
 package kr.wonlab.ruins;
 
 import kr.wonlab.ruins.blocks.ParticleAcceleratorBlock;
+import kr.wonlab.ruins.blocks.PollutedFurnace;
+import kr.wonlab.ruins.blocks.PollutedFurnaceBlockEntity;
+import kr.wonlab.ruins.blocks.PollutedFurnaceScreenHandler;
+import kr.wonlab.ruins.entity.FireZombie;
 import kr.wonlab.ruins.fluids.PollutedWaterFluid;
 
+import kr.wonlab.ruins.recipes.RuinsRecipe;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.sapling.SaplingGenerator;
-import net.minecraft.client.render.SkyProperties;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.*;
+import net.minecraft.recipe.CookingRecipeSerializer;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -34,6 +48,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Ruins implements ModInitializer {
 
+    public static final ScreenHandlerType<PollutedFurnaceScreenHandler> POLLUTED_FURNACE_SCREEN_HANDLER;
     public static ItemGroup RUINS_ITEMGROUP = FabricItemGroupBuilder.build(
             new Identifier("ruins", "ruins_itemgroup"),
             () -> new ItemStack(Blocks.END_PORTAL_FRAME)
@@ -60,8 +75,32 @@ public class Ruins implements ModInitializer {
     public static Item FLAME_ORE_ITEM = new BlockItem(FLAME_ORE, new FabricItemSettings().group(RUINS_ITEMGROUP));
     public static Item ICE_ORE_ITEM = new BlockItem(ICE_ORE, new FabricItemSettings().group(RUINS_ITEMGROUP));
 
+    public static Item FLAME_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
+    public static Item ICE_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
+
     public static ConfiguredFeature<?, ?> FLAME_ORE_FEATURE;
     public static ConfiguredFeature<?, ?> ICE_ORE_FEATURE;
+
+    public static Block POLLUTED_FURNACE_BLOCK;
+    public static BlockEntityType POLLUTED_FURNACE_BLOCK_ENTITY;
+
+    public static final RecipeType<RuinsRecipe> RUINS_RECIPE_TYPE;
+    public static final RecipeSerializer<RuinsRecipe> RUINS_RECIPE_SERIALIZER;
+
+    public static final EntityType<FireZombie> FIRE_ZOMBIE = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier("ruins", "fire_zombie"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, FireZombie::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
+    );
+
+    static {
+        POLLUTED_FURNACE_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier("ruins", "polluted_furnace"), PollutedFurnaceScreenHandler::new);
+        RUINS_RECIPE_TYPE = Registry.register(Registry.RECIPE_TYPE, new Identifier("ruins", "polluted_furnace"), new RecipeType<RuinsRecipe>() {
+            @Override
+            public String toString() {return "polluted_furnace";}
+        });
+        RUINS_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new Identifier("ruins", "polluted_furnace"), new CookingRecipeSerializer<>(RuinsRecipe::new, 200));
+    }
 
     @Override
     public void onInitialize() {
@@ -129,6 +168,13 @@ public class Ruins implements ModInitializer {
                 new Identifier("ruins", "ice_ore"));
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, iceOre.getValue(), ICE_ORE_FEATURE);
 
+        FLAME_INGOT = Registry.register(Registry.ITEM, new Identifier("ruins", "flame_ingot"), FLAME_INGOT);
+        ICE_INGOT = Registry.register(Registry.ITEM, new Identifier("ruins", "ice_ingot"), ICE_INGOT);
+
+        POLLUTED_FURNACE_BLOCK = Registry.register(Registry.BLOCK, new Identifier("ruins", "polluted_furnace"), new PollutedFurnace(FabricBlockSettings.of(Material.METAL)));
+        Registry.register(Registry.ITEM, new Identifier("ruins", "polluted_furnace"), new BlockItem(POLLUTED_FURNACE_BLOCK, new Item.Settings().group(RUINS_ITEMGROUP)));
+        POLLUTED_FURNACE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier("ruins", "polluted_furnace"), BlockEntityType.Builder.create(PollutedFurnaceBlockEntity::new, POLLUTED_FURNACE_BLOCK).build(null));
+        FabricDefaultAttributeRegistry.register(FIRE_ZOMBIE, FireZombie.createMobAttributes());
     }
 
     private static PillarBlock createLogBlock(MaterialColor topMaterialColor, MaterialColor sideMaterialColor) {

@@ -1,0 +1,8 @@
+{
+  "type": "ruins:polluted_furnace",
+  "ingredient": {
+    "item": "ruins:flame_ore"
+  },
+  "result": "ruins:flame_ingot",
+  "experience": 100
+}
