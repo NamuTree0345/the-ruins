@@ -10,6 +10,7 @@ import kr.wonlab.ruins.fluids.PollutedWaterFluid;
 
 import kr.wonlab.ruins.recipes.RuinsRecipe;
 import kr.wonlab.ruins.toolMaterial.FlameToolMaterial;
+import kr.wonlab.ruins.toolMaterial.IceToolMaterial;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -83,6 +84,8 @@ public class Ruins implements ModInitializer {
     public static Item ICE_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
 
     public static ToolItem FLAME_PICKAXE = new CustomPickaxeItem(FlameToolMaterial.INSTANCE, 3, -2.4F, new Item.Settings().group(RUINS_ITEMGROUP));
+
+    public static ToolItem ICE_PICKAXE = new CustomPickaxeItem(IceToolMaterial.INSTANCE, 5, -2.4F, new Item.Settings().group(RUINS_ITEMGROUP));
 
     public static ConfiguredFeature<?, ?> FLAME_ORE_FEATURE;
     public static ConfiguredFeature<?, ?> ICE_ORE_FEATURE;
@@ -183,6 +186,8 @@ public class Ruins implements ModInitializer {
         FabricDefaultAttributeRegistry.register(FIRE_ZOMBIE, FireZombie.createMobAttributes());
 
         FLAME_PICKAXE = Registry.register(Registry.ITEM, new Identifier("ruins", "flame_pickaxe"), FLAME_PICKAXE);
+
+        ICE_PICKAXE = Registry.register(Registry.ITEM, new Identifier("ruins", "ice_pickaxe"), ICE_PICKAXE);
     }
 
     private static PillarBlock createLogBlock(MaterialColor topMaterialColor, MaterialColor sideMaterialColor) {
