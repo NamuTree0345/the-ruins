@@ -96,11 +96,11 @@ public class Ruins implements ModInitializer {
     public static final RecipeType<RuinsRecipe> RUINS_RECIPE_TYPE;
     public static final RecipeSerializer<RuinsRecipe> RUINS_RECIPE_SERIALIZER;
 
-    public static final EntityType<FireZombie> FIRE_ZOMBIE = Registry.register(
-            Registry.ENTITY_TYPE,
-            new Identifier("ruins", "fire_zombie"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, FireZombie::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
-    );
+    //public static final EntityType<FireZombie> FIRE_ZOMBIE = Registry.register(
+    //        Registry.ENTITY_TYPE,
+    //        new Identifier("ruins", "fire_zombie"),
+    //        FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, FireZombie::new).dimensions(EntityDimensions.fixed(0.75f, 0.75f)).build()
+    //);
 
     static {
         POLLUTED_FURNACE_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new Identifier("ruins", "polluted_furnace"), PollutedFurnaceScreenHandler::new);
@@ -183,7 +183,7 @@ public class Ruins implements ModInitializer {
         POLLUTED_FURNACE_BLOCK = Registry.register(Registry.BLOCK, new Identifier("ruins", "polluted_furnace"), new PollutedFurnace(FabricBlockSettings.of(Material.METAL)));
         Registry.register(Registry.ITEM, new Identifier("ruins", "polluted_furnace"), new BlockItem(POLLUTED_FURNACE_BLOCK, new Item.Settings().group(RUINS_ITEMGROUP)));
         POLLUTED_FURNACE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier("ruins", "polluted_furnace"), BlockEntityType.Builder.create(PollutedFurnaceBlockEntity::new, POLLUTED_FURNACE_BLOCK).build(null));
-        FabricDefaultAttributeRegistry.register(FIRE_ZOMBIE, FireZombie.createMobAttributes());
+        //FabricDefaultAttributeRegistry.register(FIRE_ZOMBIE, FireZombie.createMobAttributes());
 
         FLAME_PICKAXE = Registry.register(Registry.ITEM, new Identifier("ruins", "flame_pickaxe"), FLAME_PICKAXE);
 
