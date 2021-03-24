@@ -5,7 +5,7 @@ import kr.wonlab.ruins.blocks.PollutedFurnace;
 import kr.wonlab.ruins.blocks.PollutedFurnaceBlockEntity;
 import kr.wonlab.ruins.blocks.PollutedFurnaceScreenHandler;
 import kr.wonlab.ruins.customs.CustomPickaxeItem;
-import kr.wonlab.ruins.entity.FireZombie;
+//import kr.wonlab.ruins.entity.FireZombie;
 import kr.wonlab.ruins.fluids.PollutedWaterFluid;
 
 import kr.wonlab.ruins.recipes.RuinsRecipe;
