@@ -2,7 +2,7 @@ package kr.wonlab.ruins.client;
 
 import kr.wonlab.ruins.Ruins;
 import kr.wonlab.ruins.blocks.PollutedFurnaceScreen;
-import kr.wonlab.ruins.entity.FireZombieRenderer;
+//import kr.wonlab.ruins.entity.FireZombieRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -31,7 +31,7 @@ import java.util.function.Function;
 public class RuinsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.INSTANCE.register(Ruins.FIRE_ZOMBIE, (dispatcher, context) -> new FireZombieRenderer(dispatcher));
+        //EntityRendererRegistry.INSTANCE.register(Ruins.FIRE_ZOMBIE, (dispatcher, context) -> new FireZombieRenderer(dispatcher));
         setupFluidRendering(Ruins.STILL_POLLUTED_WATER, Ruins.FLOWING_POLLUTED_WATER, new Identifier("minecraft", "water"), 0x4CC248);
         ScreenRegistry.register(Ruins.POLLUTED_FURNACE_SCREEN_HANDLER, PollutedFurnaceScreen::new);
     }
