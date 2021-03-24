@@ -4,6 +4,7 @@ import kr.wonlab.ruins.blocks.ParticleAcceleratorBlock;
 import kr.wonlab.ruins.blocks.PollutedFurnace;
 import kr.wonlab.ruins.blocks.PollutedFurnaceBlockEntity;
 import kr.wonlab.ruins.blocks.PollutedFurnaceScreenHandler;
+import kr.wonlab.ruins.customs.CustomPickaxeItem;
 import kr.wonlab.ruins.entity.FireZombie;
 import kr.wonlab.ruins.fluids.PollutedWaterFluid;
 
@@ -81,7 +82,7 @@ public class Ruins implements ModInitializer {
     public static Item FLAME_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
     public static Item ICE_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
 
-    public static ToolItem FLAME_PICKAXE = new PickaxeItem(FlameToolMaterial.INSTANCE, 3, -2.4F, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ToolItem FLAME_PICKAXE = new CustomPickaxeItem(FlameToolMaterial.INSTANCE, 3, -2.4F, new Item.Settings().group(RUINS_ITEMGROUP));
 
     public static ConfiguredFeature<?, ?> FLAME_ORE_FEATURE;
     public static ConfiguredFeature<?, ?> ICE_ORE_FEATURE;
@@ -180,6 +181,8 @@ public class Ruins implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier("ruins", "polluted_furnace"), new BlockItem(POLLUTED_FURNACE_BLOCK, new Item.Settings().group(RUINS_ITEMGROUP)));
         POLLUTED_FURNACE_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier("ruins", "polluted_furnace"), BlockEntityType.Builder.create(PollutedFurnaceBlockEntity::new, POLLUTED_FURNACE_BLOCK).build(null));
         FabricDefaultAttributeRegistry.register(FIRE_ZOMBIE, FireZombie.createMobAttributes());
+
+        FLAME_PICKAXE = Registry.register(Registry.ITEM, new Identifier("ruins", "flame_pickaxe"), FLAME_PICKAXE);
     }
 
     private static PillarBlock createLogBlock(MaterialColor topMaterialColor, MaterialColor sideMaterialColor) {
