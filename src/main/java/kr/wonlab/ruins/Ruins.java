@@ -8,6 +8,7 @@ import kr.wonlab.ruins.entity.FireZombie;
 import kr.wonlab.ruins.fluids.PollutedWaterFluid;
 
 import kr.wonlab.ruins.recipes.RuinsRecipe;
+import kr.wonlab.ruins.toolMaterial.FlameToolMaterial;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -22,6 +23,8 @@ import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectType;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.*;
 import net.minecraft.recipe.CookingRecipeSerializer;
@@ -77,6 +80,8 @@ public class Ruins implements ModInitializer {
 
     public static Item FLAME_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
     public static Item ICE_INGOT = new Item(new FabricItemSettings().group(RUINS_ITEMGROUP));
+
+    public static ToolItem FLAME_PICKAXE = new PickaxeItem(FlameToolMaterial.INSTANCE, 3, -2.4F, new Item.Settings().group(ItemGroup.COMBAT));
 
     public static ConfiguredFeature<?, ?> FLAME_ORE_FEATURE;
     public static ConfiguredFeature<?, ?> ICE_ORE_FEATURE;

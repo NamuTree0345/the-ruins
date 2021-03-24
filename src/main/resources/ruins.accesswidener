@@ -1,3 +1,4 @@
 accessWidener v1 named
 
 accessible class net/minecraft/recipe/CookingRecipeSerializer$RecipeFactory
+extendable method net/minecraft/entity/effect/StatusEffect <init>  (Lnet/minecraft/entity/effect/LivingEntity;Ljava/lang/Integer;)V
